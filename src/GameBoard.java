@@ -8,4 +8,11 @@ public class GameBoard {
         owner=new Boolean[h][w];
         GameType=type;
     }
+
+    public int getBoardWidth(){
+        return board[0].length;
+    }
+    public int getBoardHeight(){
+        return board.length;
+    }
 }

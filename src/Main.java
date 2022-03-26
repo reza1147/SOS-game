@@ -19,6 +19,8 @@ public class Main extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         me=this;
+        gameWidth=3;
+        gameHeight=3;
         initTopPanel();
         initCenterPanel();
         initBotPanel();
