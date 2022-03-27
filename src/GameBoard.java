@@ -8,6 +8,7 @@ public class GameBoard {
     private boolean turn; // true = B   false = R
     private int bPoint;
     private int rPoint;
+    private int emptyCell;
     public GameBoard(int w, int h, boolean type) {
         board = new Boolean[h][w];
         owner = new Boolean[h][w];
@@ -15,6 +16,7 @@ public class GameBoard {
         turn = true;
         bPoint=0;
         rPoint=0;
+        emptyCell=h*w;
     }
 
     public int getBPoint() {
@@ -52,6 +54,9 @@ public class GameBoard {
         else
             rPoint+=lines.size();
         turn = !turn;
+        emptyCell--;
+        if(emptyCell==0)
+            return null;
         return lines;
     }
 
@@ -91,7 +96,6 @@ public class GameBoard {
                     continue;
                 if (!board[x + i][y + j] && board[x + i + i][y + j + j]) {
                     lines.add(new int[]{x ,y ,x + i + i,y + j + j});
-
                 }
             }
         }

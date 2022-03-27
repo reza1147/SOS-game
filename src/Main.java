@@ -4,7 +4,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class Main extends JFrame {
     private boolean gameType;// true = PvE   false= PvP
@@ -12,15 +17,16 @@ public class Main extends JFrame {
     private Font defaultFont = new Font("tahoma", Font.BOLD, 20);
     private JTextField heightTxt, widthTxt;
     private Main me;
+
     public Main() {
         setSize(600, 600);
         setLocationRelativeTo(null);
         setTitle("SOS game");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        me=this;
-        gameWidth=3;
-        gameHeight=3;
+        me = this;
+        gameWidth = 3;
+        gameHeight = 3;
         initTopPanel();
         initCenterPanel();
         initBotPanel();
@@ -36,13 +42,32 @@ public class Main extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (checkSize()) {
-                    GameBoard gameBoard=new GameBoard(gameWidth,gameHeight,gameType);
-                    Game game=new Game(gameBoard);
+                    GameBoard gameBoard = new GameBoard(gameWidth, gameHeight, gameType);
+                    Game game = new Game(gameBoard);
                     setVisible(false);
                     game.addWindowListener(new WindowAdapter() {
                         @Override
                         public void windowClosed(WindowEvent e) {
                             setVisible(true);
+                        }
+                    });
+                    game.addPropertyChangeListener("Points", new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ((int) evt.getNewValue() > (int) evt.getOldValue())
+                                JOptionPane.showMessageDialog(me,
+                                        "Red Won!! point=" + evt.getNewValue()
+                                        , "Winner",
+                                        JOptionPane.PLAIN_MESSAGE);
+                            else if ((int) evt.getNewValue() < (int) evt.getOldValue())
+                                JOptionPane.showMessageDialog(me,
+                                        "Blue Won!! point=" + evt.getOldValue()
+                                        , "Winner",
+                                        JOptionPane.PLAIN_MESSAGE);
+                            else
+                                JOptionPane.showMessageDialog(me,
+                                        "tie", "tie",
+                                        JOptionPane.PLAIN_MESSAGE);
                         }
                     });
                 } else {
