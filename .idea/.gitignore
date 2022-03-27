@@ -7,7 +7,7 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 # Compiled class file
-*.class
+**.class
 
 # Log file
 *.log
